@@ -15,16 +15,10 @@
 #    limitations under the License.
 
 import unittest
-
-from six import string_types
-
-try:
-    import http.client as httplib
-except ImportError:
-    import httplib
+import http.client
 
 if __name__ == '__main__':
-    from main import setup_tincan_path
+    from .main import setup_tincan_path
 
     setup_tincan_path()
 from tincan import LRSResponse, HTTPRequest
@@ -90,7 +84,7 @@ class LRSResponseTest(unittest.TestCase):
         self.assertIsNone(resp.response)
 
     def test_init_all(self):
-        conn = httplib.HTTPConnection("tincanapi.com")
+        conn = http.client.HTTPConnection("tincanapi.com")
         conn.request("GET", "")
         web_resp = conn.getresponse()
 
@@ -110,11 +104,11 @@ class LRSResponseTest(unittest.TestCase):
         self.assertIsInstance(resp.request, HTTPRequest)
         self.assertEqual(resp.request, req)
 
-        self.assertIsInstance(resp.response, httplib.HTTPResponse)
+        self.assertIsInstance(resp.response, http.client.HTTPResponse)
         self.assertEqual(resp.response, web_resp)
 
     def test_setters(self):
-        conn = httplib.HTTPConnection("tincanapi.com")
+        conn = http.client.HTTPConnection("tincanapi.com")
         conn.request("GET", "")
         web_resp = conn.getresponse()
 
@@ -134,7 +128,7 @@ class LRSResponseTest(unittest.TestCase):
         self.assertEqual(resp.request, req)
         self.assertEqual(resp.request.resource, "test")
 
-        self.assertIsInstance(resp.response, httplib.HTTPResponse)
+        self.assertIsInstance(resp.response, http.client.HTTPResponse)
         self.assertEqual(resp.response, web_resp)
 
     def test_unicode(self):
@@ -144,7 +138,7 @@ class LRSResponseTest(unittest.TestCase):
                     b"\xce\xbf\xce\xbc\xce\xad\xce\xbd\xce\xbf\xcf\x85"
 
         self.assertIsInstance(resp, LRSResponse)
-        self.assertIsInstance(resp.data, string_types)
+        self.assertIsInstance(resp.data, str)
         self.assertEqual(resp.data, u"δοκιμή περιεχομένου")
 
     def test_setters_none(self):

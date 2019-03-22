@@ -11,7 +11,6 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
-from six import string_types
 
 from tincan.documents import Document
 from tincan.agent import Agent
@@ -75,11 +74,8 @@ class StateDocument(Document):
             try:
                 value = Agent(value)
             except:
-                raise TypeError(
-                    "Property 'agent' in 'tincan.%s' must be set with a type "
-                    "that can be constructed into a tincan.Agent object." %
-                    self.__class__.__name__
-                )
+                raise TypeError(f"Property 'agent' in 'tincan.{self.__class__.__name__}' must be set with a type "
+                                f"that can be constructed into a tincan.Agent object.")
         self._agent = value
 
     @property
@@ -98,11 +94,8 @@ class StateDocument(Document):
             try:
                 value = Activity(value)
             except:
-                raise TypeError(
-                    "Property 'activity' in 'tincan.%s' must be set with a type "
-                    "that can be constructed into a tincan.Activity object." %
-                    self.__class__.__name__
-                )
+                raise TypeError(f"Property 'activity' in 'tincan.{self.__class__.__name__}' must be set with a type "
+                                f"that can be constructed into a tincan.Activity object.")
         self._activity = value
 
     @property
@@ -117,7 +110,7 @@ class StateDocument(Document):
 
     @registration.setter
     def registration(self, value):
-        if not isinstance(value, string_types) and value is not None:
+        if not isinstance(value, str) and value is not None:
             str(value)
 
         self._registration = value

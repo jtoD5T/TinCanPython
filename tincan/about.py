@@ -11,7 +11,6 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
-from six import string_types
 
 from tincan.serializable_base import SerializableBase
 from tincan.version import Version
@@ -63,7 +62,7 @@ class About(SerializableBase):
             :type version: list of str or tuple of str or basestring or unicode
             :raises: ValueError
             """
-            if version in ['1.0.2', '1.0.1', '1.0.0', '0.95', '0.9']:
+            if version in ['1.0.3', '1.0.2', '1.0.1', '1.0.0', '0.95', '0.9']:
                 return
 
             # Construct the error message
@@ -72,22 +71,13 @@ class About(SerializableBase):
             else:
                 value_str = repr(version)
 
-            msg = (
-                "Tried to set property 'version' in a 'tincan.%s' object "
-                "with an invalid value: %s\n"
-                "Allowed versions are: %s" %
-                (
-                    self.__class__.__name__,
-                    value_str,
-                    ', '.join(map(repr, Version.supported)),
-                )
-            )
-
-            raise ValueError(msg)
+            raise ValueError("fTried to set property 'version' in a 'tincan.{self.__class__.__name__}' object "
+                             f"with an invalid value: {value_str}\n"
+                             f"Allowed versions are: {', '.join(map(repr, Version.supported))}")
 
         if value is None:
             self._version = [Version.latest]
-        elif isinstance(value, string_types):
+        elif isinstance(value, str):
             check_version(value)
             self._version = [value]
         elif isinstance(value, (list, tuple)):
@@ -95,13 +85,8 @@ class About(SerializableBase):
                 check_version(v)
             self._version = list(value)
         else:
-            raise TypeError(
-                "Property 'version' in a 'tincan.%s' object must be set with a "
-                "list, tuple, str, unicode or None. Tried to set it with: %s" %
-                (
-                    self.__class__.__name__,
-                    repr(value),
-                ))
+            raise TypeError(f"Property 'version' in a 'tincan.{self.__class__.__name__}' object must be set with a "
+                            f"list, tuple, str, unicode or None. Tried to set it with: {repr(value)}")
 
     @property
     def extensions(self):
@@ -123,14 +108,10 @@ class About(SerializableBase):
         else:
             try:
                 self._extensions = Extensions(value)
-            except Exception as e:
-                msg = (
-                    "Property 'extensions' in a 'tincan.%s' object must be set with a "
-                    "tincan.Extensions, dict, or None.\n\n" %
-                    self.__class__.__name__,
-                )
-                msg += e.message
-                raise TypeError(msg)
+            except Exception:
+                raise TypeError(f"Property 'extensions' in a 'tincan.{self.__class__.__name__}'"
+                                f" object must be set with a "
+                                f"tincan.Extensions, dict, or None.\n\n")
 
     @extensions.deleter
     def extensions(self):

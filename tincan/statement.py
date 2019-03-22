@@ -16,8 +16,6 @@ import uuid
 import re
 from datetime import datetime
 
-from six import string_types
-
 from tincan.statement_base import StatementBase
 from tincan.agent import Agent
 from tincan.group import Group
@@ -81,7 +79,7 @@ class Statement(StatementBase):
     @id.setter
     def id(self, value):
         if value is not None and not isinstance(value, uuid.UUID):
-            if isinstance(value, string_types) and not self._UUID_REGEX.match(value):
+            if isinstance(value, str) and not self._UUID_REGEX.match(value):
                 raise ValueError("Invalid UUID string")
             value = uuid.UUID(value)
         self._id = value
@@ -165,18 +163,11 @@ class Statement(StatementBase):
 
         try:
             self._stored = make_datetime(value)
-        except TypeError as e:
-            e.message = (
-                "Property 'stored' in a 'tincan.%s' "
-                "object must be set with a "
-                "datetime.datetime, str, unicode, int, float, dict "
-                "or None.\n\n%s" %
-                (
-                    self.__class__.__name__,
-                    e.message,
-                )
-            )
-            raise e
+        except TypeError:
+            raise TypeError(f"Property 'stored' in a 'tincan.{self.__class__.__name__}' "
+                            f"object must be set with a "
+                            f"datetime.datetime, str, unicode, int, float, dict "
+                            f"or None.\n\n")
 
     @stored.deleter
     def stored(self):
@@ -240,7 +231,7 @@ class Statement(StatementBase):
         if value is not None:
             if value == '':
                 raise ValueError("Property version can not be set to an empty string")
-            elif not isinstance(value, string_types):
+            elif not isinstance(value, str):
                 value = str(value)
         self._version = value
 

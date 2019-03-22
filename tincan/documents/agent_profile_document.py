@@ -63,9 +63,6 @@ class AgentProfileDocument(Document):
             try:
                 value = Agent(value)
             except:
-                raise TypeError(
-                    "Property 'agent' in 'tincan.%s' must be set with a type "
-                    "that can be constructed into an tincan.Agent object." %
-                    self.__class__.__name__
-                )
+                raise TypeError(f"Property 'agent' in 'tincan.{self.__class__.__name__}' must be set with a type "
+                                f"that can be constructed into an tincan.Agent object.")
         self._agent = value

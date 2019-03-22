@@ -67,13 +67,9 @@ class Score(SerializableBase):
         try:
             self._scaled = float(value)
         except Exception as e:
-            msg = (
-                "Property 'scaled' in a 'tincan.%s' object must be set with a "
-                "float or None." %
-                self.__class__.__name__
-            )
-            msg += e.message
-            raise TypeError(msg)
+            raise TypeError(f"Property 'scaled' in a 'tincan.{self.__class__.__name__}' object must be set with a "
+                            f"float or None."
+                            f"\n\n{repr(e)}")
 
     @scaled.deleter
     def scaled(self):
@@ -99,13 +95,9 @@ class Score(SerializableBase):
         try:
             self._raw = float(value)
         except Exception as e:
-            msg = (
-                "Property 'raw' in a 'tincan.%s' object must be set with a "
-                "float or None." %
-                self.__class__.__name__
-            )
-            msg += e.message
-            raise TypeError(msg)
+            raise TypeError(f"Property 'raw' in a 'tincan.{self.__class__.__name__}' object must be set with a "
+                            f"float or None."
+                            f"\n\n{repr(e)}")
 
     @raw.deleter
     def raw(self):
@@ -131,13 +123,9 @@ class Score(SerializableBase):
         try:
             self._min = float(value)
         except Exception as e:
-            msg = (
-                "Property 'min' in a 'tincan.%s' object must be set with a "
-                "float or None." %
-                self.__class__.__name__
-            )
-            msg += e.message
-            raise TypeError(msg)
+            raise TypeError(f"Property 'min' in a 'tincan.{self.__class__.__name__}' object must be set with a "
+                            f"float or None."
+                            f"\n\n{repr(e)}")
 
     @min.deleter
     def min(self):
@@ -163,14 +151,9 @@ class Score(SerializableBase):
         try:
             self._max = float(value)
         except Exception as e:
-            msg = (
-                "Property 'max' in a 'tincan.%s' object must be set with a "
-                "float or None." %
-                self.__class__.__name__
-            )
-            msg += e.message
-            raise TypeError(msg)
-
+            raise TypeError(f"Property 'max' in a 'tincan.{self.__class__.__name__}' object must be set with a "
+                            f"float or None."
+                            f"\n\n{repr(e)}")
     @max.deleter
     def max(self):
         del self._max

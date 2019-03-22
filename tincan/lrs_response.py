@@ -12,11 +12,7 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
-try:
-    from http.client import HTTPResponse
-except ImportError:
-    from httplib import HTTPResponse
-
+from http.client import HTTPResponse
 
 from tincan.http_request import HTTPRequest
 from tincan.base import Base
@@ -103,9 +99,7 @@ class LRSResponse(Base):
     @response.setter
     def response(self, value):
         if value is not None and not isinstance(value, HTTPResponse):
-            raise TypeError(
-                "Property 'response' in 'tincan.%s' must be set with an HTTPResponse object" % self.__class__.__name__
-            )
+            raise TypeError(f"Property 'response' in 'tincan.{self.__class__.__name__}' must be set with an HTTPResponse object")
         self._response = value
 
     @property

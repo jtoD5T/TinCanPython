@@ -142,18 +142,12 @@ class StatementBase(SerializableBase):
 
         try:
             self._timestamp = make_datetime(value)
-        except TypeError as e:
-            e.message = (
-                "Property 'timestamp' in a 'tincan.%s' "
-                "object must be set with a "
-                "datetime.datetime, str, unicode, int, float, dict "
-                "or None.\n\n%s" %
-                (
-                    self.__class__.__name__,
-                    e.message,
-                )
-            )
-            raise e
+        except TypeError:
+            msg = f"Property 'timestamp' in a 'tincan.{self.__class__.__name__}' " \
+                  f"object must be set with a " \
+                  f"datetime.datetime, str, unicode, int, float, dict " \
+                  f"or None.\n\n"
+            raise TypeError(msg)
 
     @timestamp.deleter
     def timestamp(self):
